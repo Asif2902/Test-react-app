@@ -4,6 +4,8 @@ import StakeSection from './components/StakeSection';
 import UnstakeSection from './components/UnstakeSection';
 import WithdrawSection from './components/WithdrawSection';
 
+import { init, useConnectWallet, useSetChain, useWallets } from
+'@web3-onboard/react';
 const stakingABI =  [
     {
         "inputs": [
@@ -231,42 +233,57 @@ function App() {
   const [walletBalance, setWalletBalance] = useState('0');
   const [rewardAvailable, setRewardAvailable] = useState('0');
 
-  const minatoNetwork = {
-    chainId: '0x79a',
-    chainName: 'Minato',
-    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-    rpcUrls: ['https://rpc.minato.soneium.org'],
-    blockExplorerUrls: ['https://explorer-testnet.soneium.org']
-  };
-
-  // Wallet Connection Logic
-  async function connectWallet() {
-    if (window.ethereum) {
-      const newProvider = new ethers.providers.Web3Provider(window.ethereum);
-      await newProvider.send('eth_requestAccounts', []);
-      const newSigner = newProvider.getSigner();
-      const walletAddr = await newSigner.getAddress();
-      await switchToMinatoNetwork(newProvider);
-      setProvider(newProvider);
-      setSigner(newSigner);
-      setWalletAddress(walletAddr);
-      const stakingContract = new ethers.Contract(stakingContractAddress, stakingABI, newSigner);
-      setContract(stakingContract);
-    } else {
-      alert('Please install MetaMask to connect your wallet.');
+  // Blocknative Onboard initialization
+const onboard = init({
+  wallets: [
+    { walletName: 'metamask', preferred: true },
+    { walletName: 'walletConnect', preferred: true },
+    { walletName: 'coinbase' }
+  ],
+  chains: [
+    {
+      id: '0x79a', // Minato Network Chain ID in hexadecimal (1946 in decimal)
+      token: 'ETH',
+      label: 'Minato Testnet',
+      rpcUrl: 'https://rpc.minato.soneium.org'
+    }
+  ],
+  appMetadata: {
+    name: 'My DApp',
+    description: 'A simple staking platform',
+    icon: '<URL_OF_YOUR_ICON>',
+    logo: '<URL_OF_YOUR_LOGO>',
+    agreement: {
+      version: '1.0.0',
+      termsUrl: '<URL_OF_TERMS>',
+      privacyUrl: '<URL_OF_PRIVACY_POLICY>'
     }
   }
+});
 
-  // Switch to Minato Network
-  async function switchToMinatoNetwork(provider) {
-    try {
-      await provider.send('wallet_switchEthereumChain', [{ chainId: minatoNetwork.chainId }]);
-    } catch (error) {
-      if (error.code === 4902) {
-        await provider.send('wallet_addEthereumChain', [minatoNetwork]);
-      }
+const App = () => {
+  // Connect wallet hook
+  const [{ wallet }, connect] = useConnectWallet();
+  const connectedWallets = useWallets();
+  
+  // State for balance and provider
+  const [provider, setProvider] = useState(null);
+  const [balance, setBalance] = useState('0');
+
+  // Whenever wallet changes, update provider and fetch balance
+  useEffect(() => {
+    if (wallet) {
+      const ethersProvider = new ethers.providers.Web3Provider(wallet.provider);
+      setProvider(ethersProvider);
+
+      const fetchBalance = async () => {
+        const walletBalance = await ethersProvider.getBalance(wallet.accounts[0].address);
+        setBalance(ethers.utils.formatEther(walletBalance));
+      };
+
+      fetchBalance();
     }
-  }
+  }, [wallet]);
 
   // Fetch total staked and ETH price from CoinGecko
   async function updateTotalStaked() {
