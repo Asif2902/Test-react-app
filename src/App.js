@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { init, useConnectWallet, Web3OnboardProvider } from '@web3-onboard/react';
 ;
-import './App.css';
+import './styles.css';
 
 // Initialize Onboard.js
 const onboard = init({
