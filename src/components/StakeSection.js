@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ethers } from 'ethers';
 
 const StakeSection = ({ walletBalance, contract, updateTotalStaked, updateWalletBalance }) => {
   const [stakeAmount, setStakeAmount] = useState('');
