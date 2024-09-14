@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './styles.css';
 
-import { Web3OnboardProvider } from '@web3-onboard/react';
-
 ReactDOM.render(
-  <Web3OnboardProvider>
+  <React.StrictMode>
     <App />
-  </Web3OnboardProvider>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
