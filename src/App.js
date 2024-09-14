@@ -3,8 +3,6 @@ import WalletConnect from './components/WalletConnect';
 import StakeSection from './components/StakeSection';
 import UnstakeSection from './components/UnstakeSection';
 import WithdrawSection from './components/WithdrawSection';
-import { ethers } from 'ethers';
-import axios from 'axios';
 
 const stakingABI =  [
     {
