@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Onboard from '@web3-onboard/react';
+import { init } from '@web3-onboard/react';
 
-const onboard = Onboard({
+const onboard = init({
   wallets: [
     {
       walletName: 'metamask',
