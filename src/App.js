@@ -3,31 +3,9 @@ import WalletConnect from './components/WalletConnect';
 import StakeSection from './components/StakeSection';
 import UnstakeSection from './components/UnstakeSection';
 import WithdrawSection from './components/WithdrawSection';
-import { init, useConnectWallet, useSetChain } from '@web3-onboard/react';
-import injectedModule from '@web3-onboard/injected-wallets';
-import walletConnectModule from '@web3-onboard/walletconnect';
 
 
-// Initialize Onboard.js
-const injected = injectedModule();
-const walletConnect = walletConnectModule();
-
-const onboard = init({
-  wallets: [injected, walletConnect],
-  chains: [
-    {
-      id: '0x79a', // Minato network chain ID
-      token: 'ETH',
-      label: 'Minato Testnet',
-      rpcUrl: 'https://rpc.minato.soneium.org'
-    }
-  ],
-  appMetadata: {
-    name: 'Staking App',
-    icon: '<url_to_your_icon>', // You can add an icon here
-    description: 'Staking platform DApp',
-  },
-});
+const stakingABI = [ { "inputs": [ { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" }, { "internalType": "address", "name": "initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "APY", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "SECONDS_IN_A_YEAR", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_staker", "type": "address" } ], "name": "getReward", "outputs": [ { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getTotalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "rewardToken", "outputs": [ { "internalType": "contract IERC20", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "stake", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "stakers", "outputs": [ { "internalType": "uint256", "name": "amountStaked", "type": "uint256" }, { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDebt", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_amount", "type": "uint256" } ], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ]; const stakingContractAddress = '0xcE3E021038C4f62209EFf23f1d2D3B3EbE83b600';
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -38,25 +16,41 @@ function App() {
   const [ethInUSD, setEthInUSD] = useState('0');
   const [walletBalance, setWalletBalance] = useState('0');
   const [rewardAvailable, setRewardAvailable] = useState('0');
-  
-  const [{ wallet }, connect, disconnect] = useConnectWallet();
-  const [{ connectedChain }, setChain] = useSetChain();
-const stakingABI = [ { "inputs": [ { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" }, { "internalType": "address", "name": "initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "APY", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "SECONDS_IN_A_YEAR", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_staker", "type": "address" } ], "name": "getReward", "outputs": [ { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getTotalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "rewardToken", "outputs": [ { "internalType": "contract IERC20", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "stake", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "stakers", "outputs": [ { "internalType": "uint256", "name": "amountStaked", "type": "uint256" }, { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDebt", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_amount", "type": "uint256" } ], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
-  const stakingContractAddress = '0xcE3E021038C4f62209EFf23f1d2D3B3EbE83b600';
+
+  const minatoNetwork = {
+    chainId: '0x79a',
+    chainName: 'Minato',
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    rpcUrls: ['https://rpc.minato.soneium.org'],
+    blockExplorerUrls: ['https://explorer-testnet.soneium.org']
+  };
 
   // Wallet Connection Logic
   async function connectWallet() {
-    const wallets = await connect();
-    if (wallets && wallets.length > 0) {
-      const newProvider = new ethers.providers.Web3Provider(wallets[0].provider, 'any');
+    if (window.ethereum) {
+      const newProvider = new ethers.providers.Web3Provider(window.ethereum);
+      await newProvider.send('eth_requestAccounts', []);
       const newSigner = newProvider.getSigner();
-      const walletAddr = wallets[0].accounts[0].address;
-      await setChain({ chainId: '0x79a' });  // Switch to Minato network
+      const walletAddr = await newSigner.getAddress();
+      await switchToMinatoNetwork(newProvider);
       setProvider(newProvider);
       setSigner(newSigner);
       setWalletAddress(walletAddr);
       const stakingContract = new ethers.Contract(stakingContractAddress, stakingABI, newSigner);
       setContract(stakingContract);
+    } else {
+      alert('Please install MetaMask to connect your wallet.');
+    }
+  }
+
+  // Switch to Minato Network
+  async function switchToMinatoNetwork(provider) {
+    try {
+      await provider.send('wallet_switchEthereumChain', [{ chainId: minatoNetwork.chainId }]);
+    } catch (error) {
+      if (error.code === 4902) {
+        await provider.send('wallet_addEthereumChain', [minatoNetwork]);
+      }
     }
   }
 
@@ -97,7 +91,7 @@ const stakingABI = [ { "inputs": [ { "internalType": "contract IERC20", "name": 
 
   return (
     <div className="container">
-      <WalletConnect walletAddress={walletAddress} connectWallet={connectWallet} disconnect={disconnect} />
+      <WalletConnect walletAddress={walletAddress} connectWallet={connectWallet} />
       <h2>Total ETH Staked: {totalStaked} ETH</h2>
       <h2>Total Value: {ethInUSD} USD</h2>
       <h3>Comprehensive APY: 33.40%</h3>
