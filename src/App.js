@@ -91,7 +91,8 @@ function App() {
 
   return (
     <div className="container">
-      <WalletConnect walletAddress={walletAddress} connectWallet={connectWallet} />
+<WalletConnect setWalletAddress={setWalletAddress} setSigner={setSigner} setProvider={setProvider} />
+
       <h2>Total ETH Staked: {totalStaked} ETH</h2>
       <h2>Total Value: {ethInUSD} USD</h2>
       <h3>Comprehensive APY: 33.40%</h3>
