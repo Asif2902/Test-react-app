@@ -1,19 +1,11 @@
 import React from 'react';
 
-const WalletConnect = ({ walletAddress, connectWallet, disconnectWallet, connecting }) => {
+const WalletConnect = ({ walletAddress, connectWallet }) => {
   return (
     <div className="header">
-      {connecting ? (
-        <button disabled>Connecting...</button>
-      ) : walletAddress ? (
-        <>
-          <button onClick={disconnectWallet}>
-            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)} (Disconnect)
-          </button>
-        </>
-      ) : (
-        <button onClick={connectWallet}>Connect Wallet</button>
-      )}
+      <button onClick={connectWallet}>
+        {walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Connect Wallet'}
+      </button>
     </div>
   );
 };
