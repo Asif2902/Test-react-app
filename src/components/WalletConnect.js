@@ -1,41 +1,10 @@
-import React, { useState } from 'react';
-import { init } from '@web3-onboard/react';
+import React from 'react';
 
-const onboard = init({
-  wallets: [
-    {
-      walletName: 'metamask',
-      preferred: true
-    },
-    {
-      walletName: 'walletConnect',
-      rpc: {
-        1: 'https://mainnet.infura.io/v3/b70e346a23714105a785fa4ce3b90aa5'
-      }
-    }
-  ],
-  chains: [
-    {
-      id: '0x79a', // Ethereum Mainnet
-      token: 'ETH',
-      label: 'Minato Testnet',
-      rpcUrl: 'https://rpc.minato.soneium.org'
-    }
-  ]
-});
-
-const WalletConnect = () => {
-  const [wallet, setWallet] = useState(null);
-
-  const connectWallet = async () => {
-    const wallets = await onboard.connectWallet();
-    setWallet(wallets[0]);
-  };
-
+const WalletConnect = ({ walletAddress, connectWallet }) => {
   return (
-    <div>
+    <div className="header">
       <button onClick={connectWallet}>
-        {wallet ? `Connected: ${wallet.accounts[0].address}` : 'Connect Wallet'}
+        {walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Connect Wallet'}
       </button>
     </div>
   );
