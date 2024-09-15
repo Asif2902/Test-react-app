@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktest_react_app=self.webpackChunktest_react_app||[]).push([[6050],{6050:(e,t,i)=>{i.d(t,{defineChain:()=>a.x,extractChain:()=>n});var a=i(8945);function n(e){let{chains:t,id:i}=e;return t.find((e=>e.id===i))}},8945:(e,t,i)=>{function a(e){return{formatters:void 0,fees:void 0,serializers:void 0,...e}}i.d(t,{x:()=>a})}}]);
