@@ -26,7 +26,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
 const wcInitOptions = {
 
   projectId: '80860302c6914b5931906382db7c216e'
-  requiredChains: [1946],
+  requiredChains: [1946]
  
   dappUrl: 'https://stake-meth.vercel.app'
 }
