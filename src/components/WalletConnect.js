@@ -26,8 +26,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
           id: '0x79a', // Minato network ID
           token: 'ETH',
           label: 'Minato',
-          rpcUrl: 'https://rpc.minato.soneium.org',
-          logo: '/chain.jpg'
+          rpcUrl: 'https://rpc.minato.soneium.org'
         }
       ],
       appMetadata: {
