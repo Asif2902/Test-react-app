@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
+import bitgetWalletModule from '@web3-onboard/bitget-wallet'; // Assuming you have this module installed
+import metamaskSDK from '@web3-onboard/metamask-sdk'; // Assuming you have this module installed
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
 
   useEffect(() => {
     const injected = injectedModule();
-   const bitgetWallet = bitgetWalletModule()
-   const metamaskSDKWallet = metamaskSDK({options: {
-  extensionOnly: false,
-  dappMetadata: {
-    name: 'Eth staking'
-  }
-}})
+    const bitgetWallet = bitgetWalletModule();
+    const metamaskSDKWallet = metamaskSDK({
+      options: {
+        extensionOnly: false,
+        dappMetadata: {
+          name: 'Eth staking'
+        }
+      }
+    });
+
     const onboardInstance = Onboard({
-      wallets: [injected metamaskSDKWallet bitgetWallet()],
+      wallets: [injected, metamaskSDKWallet, bitgetWallet],
       chains: [
         {
           id: '0x79a', // Minato network ID
