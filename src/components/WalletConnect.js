@@ -31,8 +31,8 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       ],
       appMetadata: {
         name: 'Staking App',
-        icon: '/logo.webp',
-        logo: '/logo.webp',
+        icon: 'logo.webp',
+        logo: 'logo.webp',
         description: 'An ETH staking platform on the Minato chain',
         recommendedInjectedWallets: [
           { name: 'MetaMask', url: 'https://metamask.io' }
