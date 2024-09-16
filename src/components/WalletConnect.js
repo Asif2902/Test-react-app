@@ -31,8 +31,8 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       ],
       appMetadata: {
         name: 'Staking App',
-        icon: 'favicon.ico'
-        logo: 'favicon.ico'
+        icon: 'favicon.ico',
+        logo: 'favicon.ico',
         description: 'An ETH staking platform on the Minato chain',
         recommendedInjectedWallets: [
           { name: 'MetaMask', url: 'https://metamask.io' }
