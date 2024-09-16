@@ -60,7 +60,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   return (
     <div className="header">
       <button onClick={connectWallet}>
-        {address ? address : 'Connect Wallet'} {/* Display shortened address if connected */}
+        Connect Wallet
       </button>
     </div>
   );
