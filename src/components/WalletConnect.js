@@ -17,7 +17,14 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
           label: 'Minato',
           rpcUrl: 'https://rpc.minato.soneium.org'
         }
-      ]
+      ],
+      appMetadata: {
+        name: 'Staking App',
+        description: 'An ETH staking platform on the Minato chain',
+        recommendedInjectedWallets: [
+          { name: 'MetaMask', url: 'https://metamask.io' }
+        ]
+      }
     });
 
     setOnboard(onboardInstance);
