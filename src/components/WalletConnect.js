@@ -40,7 +40,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
 
     setOnboard(onboardInstance);
   }, []);
-const shortenAddress = (addr) => `${addr.slice(0, 5)}...${addr.slice(-4)}`;
+
   const connectWallet = async () => {
     if (onboard) {
       const wallets = await onboard.connectWallet();
