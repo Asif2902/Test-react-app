@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
-import walletConnectModule from '@web3-onboard/walletconnect';
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
-  const [walletAddressDisplay, setWalletAddressDisplay] = useState('Connect Wallet');
 
   useEffect(() => {
     const injected = injectedModule();
-    const walletConnect = walletConnectModule();
 
     const onboardInstance = Onboard({
-      wallets: [injected, walletConnect],
+      wallets: [injected],
       chains: [
         {
           id: '0x79a', // Minato network ID
@@ -38,7 +35,6 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
         setWalletAddress(address);
         setProvider(ethersProvider);
         setSigner(signer);
-        setWalletAddressDisplay(`${address.slice(0, 6)}...${address.slice(-4)}`);
       }
     }
   };
@@ -46,7 +42,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   return (
     <div className="header">
       <button onClick={connectWallet}>
-        {walletAddressDisplay}
+        Connect Wallet
       </button>
     </div>
   );
