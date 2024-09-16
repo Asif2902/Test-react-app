@@ -10,8 +10,10 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@web3-onboard/bitget": "^2.1.1",
     "@web3-onboard/core": "^2.22.3",
     "@web3-onboard/injected-wallets": "^2.11.2",
+    "@web3-onboard/metamask": "^2.1.3",
     "@web3-onboard/react": "^2.9.3",
     "@web3-onboard/walletconnect": "^2.6.1",
     "ethers": "^6.13.2",
