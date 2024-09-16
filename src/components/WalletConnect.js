@@ -26,13 +26,14 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
           id: '0x79a', // Minato network ID
           token: 'ETH',
           label: 'Minato',
-          rpcUrl: 'https://rpc.minato.soneium.org'
+          rpcUrl: 'https://rpc.minato.soneium.org',
+          logo: '/chain.jpg'
         }
       ],
       appMetadata: {
         name: 'Staking App',
-        icon: 'favicon.ico',
-        logo: 'favicon.ico',
+        icon: '/logo.webp',
+        logo: '/logo.webp',
         description: 'An ETH staking platform on the Minato chain',
         recommendedInjectedWallets: [
           { name: 'MetaMask', url: 'https://metamask.io' }
