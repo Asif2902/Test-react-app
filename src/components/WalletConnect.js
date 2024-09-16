@@ -3,7 +3,7 @@ import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import bitgetWalletModule from '@web3-onboard/bitget';
 import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
-
+import walletConnectModule from '@web3-onboard/walletconnect'
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
@@ -23,8 +23,17 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       }
     });
 
+const wcInitOptions = {
+
+  projectId: '80860302c6914b5931906382db7c216e'
+  requiredChains: [1946],
+ 
+  dappUrl: 'https://stake-meth.vercel.app'
+}
+const walletConnect = walletConnectModule(wcInitOptions)
+
     const onboardInstance = Onboard({
-      wallets: [injected, metamaskSDKWallet, bitgetWallet],
+      wallets: [injected, metamaskSDKWallet, bitgetWallet, walletConnect],
       chains: [
         {
           id: minatoChainId, // Minato network ID
