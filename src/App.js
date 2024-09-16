@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import WalletConnect from './components/WalletConnect';
 import StakeSection from './components/StakeSection';
@@ -27,35 +26,6 @@ function App() {
     rpcUrls: ['https://rpc.minato.soneium.org'],
     blockExplorerUrls: ['https://explorer-testnet.soneium.org']
   };
-
-  // Wallet Connection Logic
-  async function connectWallet() {
-    if (window.ethereum) {
-      const newProvider = new ethers.providers.Web3Provider(window.ethereum);
-      await newProvider.send('eth_requestAccounts', []);
-      const newSigner = newProvider.getSigner();
-      const walletAddr = await newSigner.getAddress();
-      await switchToMinatoNetwork(newProvider);
-      setProvider(newProvider);
-      setSigner(newSigner);
-      setWalletAddress(walletAddr);
-      const stakingContract = new ethers.Contract(stakingContractAddress, stakingABI, newSigner);
-      setContract(stakingContract);
-    } else {
-      alert('Please install MetaMask to connect your wallet.');
-    }
-  }
-
-  // Switch to Minato Network
-  async function switchToMinatoNetwork(provider) {
-    try {
-      await provider.send('wallet_switchEthereumChain', [{ chainId: minatoNetwork.chainId }]);
-    } catch (error) {
-      if (error.code === 4902) {
-        await provider.send('wallet_addEthereumChain', [minatoNetwork]);
-      }
-    }
-  }
 
   // Fetch total staked and ETH price from CoinGecko
   async function updateTotalStaked() {
@@ -94,8 +64,7 @@ function App() {
 
   return (
     <div className="container">
-    <WalletConnect setWalletAddress={setWalletAddress} setProvider={setProvider}
-    setSigner={setSigner} />
+      <WalletConnect setWalletAddress={setWalletAddress} setProvider={setProvider} setSigner={setSigner} />
       <h2>Total ETH Staked: {totalStaked} ETH</h2>
       <h2>Total Value: {ethInUSD} USD</h2>
       <h3>Comprehensive APY: 33.40%</h3>
