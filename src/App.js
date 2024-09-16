@@ -1,11 +1,32 @@
 import React, { useState, useEffect } from 'react';
+
 import WalletConnect from './components/WalletConnect';
 import StakeSection from './components/StakeSection';
 import UnstakeSection from './components/UnstakeSection';
 import WithdrawSection from './components/WithdrawSection';
 
-
-const stakingABI = [ { "inputs": [ { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" }, { "internalType": "address", "name": "initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "APY", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "SECONDS_IN_A_YEAR", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_staker", "type": "address" } ], "name": "getReward", "outputs": [ { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getTotalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "rewardToken", "outputs": [ { "internalType": "contract IERC20", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "stake", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "stakers", "outputs": [ { "internalType": "uint256", "name": "amountStaked", "type": "uint256" }, { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDebt", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_amount", "type": "uint256" } ], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ]; const stakingContractAddress = '0xcE3E021038C4f62209EFf23f1d2D3B3EbE83b600';
+// Staking contract ABI and address
+const stakingABI = [
+  {
+    "inputs": [
+      { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" },
+      { "internalType": "address", "name": "initialOwner", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" },
+  { "inputs": [], "name": "APY", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "SECONDS_IN_A_YEAR", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [{ "internalType": "address", "name": "_staker", "type": "address" }], "name": "getReward", "outputs": [{ "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "getTotalStaked", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "stake", "outputs": [], "stateMutability": "payable", "type": "function" },
+  { "inputs": [{ "internalType": "address", "name": "", "type": "address" }], "name": "stakers", "outputs": [{ "internalType": "uint256", "name": "amountStaked", "type": "uint256" }, { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDebt", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [], "name": "totalStaked", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+  { "inputs": [{ "internalType": "uint256", "name": "_amount", "type": "uint256" }], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+  { "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
+];
+const stakingContractAddress = '0xcE3E021038C4f62209EFf23f1d2D3B3EbE83b600';
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -17,6 +38,7 @@ function App() {
   const [walletBalance, setWalletBalance] = useState('0');
   const [rewardAvailable, setRewardAvailable] = useState('0');
 
+  // Minato network configuration
   const minatoNetwork = {
     chainId: '0x79a',
     chainName: 'Minato',
@@ -25,7 +47,7 @@ function App() {
     blockExplorerUrls: ['https://explorer-testnet.soneium.org']
   };
 
-  // Wallet Connection Logic
+  // Wallet connection logic
   async function connectWallet() {
     if (window.ethereum) {
       const newProvider = new ethers.providers.Web3Provider(window.ethereum);
@@ -43,7 +65,7 @@ function App() {
     }
   }
 
-  // Switch to Minato Network
+  // Switch to Minato network
   async function switchToMinatoNetwork(provider) {
     try {
       await provider.send('wallet_switchEthereumChain', [{ chainId: minatoNetwork.chainId }]);
@@ -65,7 +87,7 @@ function App() {
     }
   }
 
-  // Fetch Wallet Balance
+  // Fetch wallet balance
   async function updateWalletBalance() {
     if (provider && walletAddress) {
       const balance = await provider.getBalance(walletAddress);
@@ -73,7 +95,7 @@ function App() {
     }
   }
 
-  // Fetch Rewards
+  // Fetch rewards
   async function updateRewards() {
     if (contract && walletAddress) {
       const [_, reward] = await contract.getReward(walletAddress);
@@ -91,14 +113,30 @@ function App() {
 
   return (
     <div className="container">
-   <WalletConnect walletAddress={walletAddress} connectWallet={connectWallet} />
+      <WalletConnect walletAddress={walletAddress} connectWallet={connectWallet} />
 
       <h2>Total ETH Staked: {totalStaked} ETH</h2>
       <h2>Total Value: {ethInUSD} USD</h2>
       <h3>Comprehensive APY: 33.40%</h3>
-      <StakeSection walletBalance={walletBalance} contract={contract} updateTotalStaked={updateTotalStaked} updateWalletBalance={updateWalletBalance} />
-      <UnstakeSection contract={contract} updateTotalStaked={updateTotalStaked} updateWalletBalance={updateWalletBalance} />
-      <WithdrawSection contract={contract} updateRewards={updateRewards} rewardAvailable={rewardAvailable} />
+
+      <StakeSection
+        walletBalance={walletBalance}
+        contract={contract}
+        updateTotalStaked={updateTotalStaked}
+        updateWalletBalance={updateWalletBalance}
+      />
+
+      <UnstakeSection
+        contract={contract}
+        updateTotalStaked={updateTotalStaked}
+        updateWalletBalance={updateWalletBalance}
+      />
+
+      <WithdrawSection
+        contract={contract}
+        updateRewards={updateRewards}
+        rewardAvailable={rewardAvailable}
+      />
     </div>
   );
 }
