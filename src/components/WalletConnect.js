@@ -3,12 +3,13 @@ import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import bitgetWalletModule from '@web3-onboard/bitget';
 import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
-
+import { ethers } from 'ethers';
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false); // Track connection status
   const [walletAddress, setWalletAddressLocal] = useState(''); // Store connected address locally
+  const minatoChainId = '0x79a'; // Minato network chain ID
 
   useEffect(() => {
     const injected = injectedModule();
@@ -26,7 +27,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       wallets: [injected, metamaskSDKWallet, bitgetWallet],
       chains: [
         {
-          id: '0x79a', // Minato network ID
+          id: minatoChainId, // Minato network ID
           token: 'ETH',
           label: 'Minato',
           rpcUrl: 'https://rpc.minato.soneium.org'
@@ -46,6 +47,37 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
     setOnboard(onboardInstance);
   }, []);
 
+  const switchChain = async (provider) => {
+    try {
+      // Request to switch to the Minato chain
+      await provider.send('wallet_switchEthereumChain', [{ chainId: minatoChainId }]);
+    } catch (error) {
+      // If the chain hasn't been added to the user's wallet, catch the error
+      if (error.code === 4902) {
+        try {
+          // Request to add the Minato chain
+          await provider.send('wallet_addEthereumChain', [
+            {
+              chainId: minatoChainId,
+              chainName: 'Minato',
+              rpcUrls: ['https://rpc.minato.soneium.org'],
+              nativeCurrency: {
+                name: 'Ethereum',
+                symbol: 'ETH',
+                decimals: 18
+              },
+              blockExplorerUrls: ['https://explorer-testnet.soneium.org']
+            }
+          ]);
+        } catch (addError) {
+          console.error('Error adding Minato chain to the wallet', addError);
+        }
+      } else {
+        console.error('Error switching chain', error);
+      }
+    }
+  };
+
   const connectWallet = async () => {
     if (onboard) {
       const wallets = await onboard.connectWallet();
@@ -60,6 +92,13 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
         setSigner(signer);
         setWalletAddressLocal(address); // Store locally
         setWalletConnected(true); // Set wallet as connected
+
+        // Check if the connected wallet is on the correct chain
+        const { chainId } = await ethersProvider.getNetwork();
+        if (chainId !== parseInt(minatoChainId, 16)) {
+          // If the chain is incorrect, request to switch to the Minato chain
+          await switchChain(ethersProvider.provider);
+        }
       }
     }
   };
