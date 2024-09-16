@@ -3,9 +3,12 @@ import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import bitgetWalletModule from '@web3-onboard/bitget';
 import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
+import { ethers } from 'ethers';
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
+  const [walletConnected, setWalletConnected] = useState(false); // Track connection status
+  const [walletAddress, setWalletAddressLocal] = useState(''); // Store connected address locally
 
   useEffect(() => {
     const injected = injectedModule();
@@ -52,9 +55,11 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
         const signer = ethersProvider.getSigner();
         const address = await signer.getAddress();
 
-        setWalletAddress(address);
+        setWalletAddress(address); // Send to parent component
         setProvider(ethersProvider);
         setSigner(signer);
+        setWalletAddressLocal(address); // Store locally
+        setWalletConnected(true); // Set wallet as connected
       }
     }
   };
@@ -62,7 +67,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   return (
     <div className="header">
       <button onClick={connectWallet}>
-        Connect Wallet
+        {walletConnected ? `Connected: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : 'Connect Wallet'}
       </button>
     </div>
   );
