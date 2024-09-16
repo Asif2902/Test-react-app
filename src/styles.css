@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #e9ecef;
+  background-color: #f5f5f5; /* Adjust background to match cleaner design */
   padding: 40px;
   margin: 0;
   color: #333;
@@ -17,48 +17,78 @@ body {
 
 /* Container Styling */
 .container {
-  max-width: 800px;
+  max-width: 400px; /* Reduce width for a more compact design */
   margin: 0 auto;
   background-color: #fff;
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 16px; /* Increase rounding for softer edges */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  border: 1px solid #dee2e6;
+  border: none; /* Remove border for a cleaner look */
+}
+
+/* Section Headers */
+h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  text-align: center; /* Align headers to the center */
 }
 
 /* Button Styling */
 button {
   margin: 10px 0;
-  padding: 12px 24px;
-  background-color: #0062cc;
+  padding: 14px 20px;
+  background-color: #5b53f2; /* New color scheme matching the second image */
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 12px; /* Increase border-radius for a rounded button */
   font-size: 16px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-  background-color: #004085;
+  background-color: #3f38d3; /* Darker hover color */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Enhanced Input Styles */
 input[type="text"], input[type="number"], select {
   width: 100%;
-  padding: 12px;
+  padding: 10px 15px;
   margin: 8px 0;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 12px; /* Match rounding with buttons */
   box-sizing: border-box;
   font-size: 16px;
   transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus, input[type="number"]:focus, select:focus {
-  border-color: #0062cc;
+  border-color: #5b53f2; /* Input border color matches button */
   outline: none;
+}
+
+/* APY and Balance Display */
+.stats {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* Section Separators */
+.stake-section, .unstake-section, .withdraw-section {
+  margin-bottom: 25px;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-group button {
+  width: 48%;
 }
 
 /* Responsive Design */
