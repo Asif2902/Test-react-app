@@ -7,9 +7,15 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
 
   useEffect(() => {
     const injected = injectedModule();
-
+   const bitgetWallet = bitgetWalletModule()
+   const metamaskSDKWallet = metamaskSDK({options: {
+  extensionOnly: false,
+  dappMetadata: {
+    name: 'Eth staking'
+  }
+}})
     const onboardInstance = Onboard({
-      wallets: [injected],
+      wallets: [injected metamaskSDKWallet bitgetWallet()],
       chains: [
         {
           id: '0x79a', // Minato network ID
