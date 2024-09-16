@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
-import bitgetWalletModule from '@web3-onboard/bitget';
-import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
+import bitgetWalletModule from '@web3-onboard/bitget'; // Assuming installed
+import metamaskSDK from '@web3-onboard/metamask'; // Assuming installed
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
@@ -14,9 +14,9 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       options: {
         extensionOnly: false,
         dappMetadata: {
-          name: 'Eth staking'
-        }
-      }
+          name: 'Eth staking',
+        },
+      },
     });
 
     const onboardInstance = Onboard({
@@ -26,16 +26,14 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
           id: '0x79a', // Minato network ID
           token: 'ETH',
           label: 'Minato',
-          rpcUrl: 'https://rpc.minato.soneium.org'
-        }
+          rpcUrl: 'https://rpc.minato.soneium.org',
+        },
       ],
       appMetadata: {
         name: 'Staking App',
         description: 'An ETH staking platform on the Minato chain',
-        recommendedInjectedWallets: [
-          { name: 'MetaMask', url: 'https://metamask.io' }
-        ]
-      }
+        recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }],
+      },
     });
 
     setOnboard(onboardInstance);
@@ -46,11 +44,15 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       const wallets = await onboard.connectWallet();
       if (wallets.length > 0) {
         const wallet = wallets[0];
+        // Use ethers 5 from CDN
         const ethersProvider = new ethers.providers.Web3Provider(wallet.provider, 'any');
         const signer = ethersProvider.getSigner();
         const address = await signer.getAddress();
 
-        setWalletAddress(address);
+        // Update wallet address with shortened format
+        const shortenedAddress = `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
+
+        setWalletAddress(shortenedAddress);
         setProvider(ethersProvider);
         setSigner(signer);
       }
@@ -60,7 +62,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   return (
     <div className="header">
       <button onClick={connectWallet}>
-        Connect Wallet
+        {walletAddress ? walletAddress : 'Connect Wallet'}
       </button>
     </div>
   );
