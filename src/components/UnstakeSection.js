@@ -1,12 +1,16 @@
 import React from 'react';
 
-const UnstakeSection = ({ contract, updateTotalStaked, updateWalletBalance }) => {
+const UnstakeSection = ({ contract, updateTotalStaked, updateWalletBalance, walletAddress }) => {
   const handleUnstake = async () => {
-    const stakerData = await contract.stakers(walletAddress);
-    const stakedAmount = stakerData.amountStaked;
-    await contract.unstake(stakedAmount);
-    updateTotalStaked();
-    updateWalletBalance();
+    try {
+      const stakerData = await contract.stakers(walletAddress);  // Use walletAddress from props
+      const stakedAmount = stakerData.amountStaked;
+      await contract.unstake(stakedAmount);
+      updateTotalStaked();
+      updateWalletBalance();
+    } catch (error) {
+      console.error('Error unstaking:', error);
+    }
   };
 
   return (
