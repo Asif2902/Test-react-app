@@ -3,7 +3,7 @@ import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import bitgetWalletModule from '@web3-onboard/bitget';
 import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
-import { ethers } from 'ethers';
+
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
