@@ -20,7 +20,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
     });
 
     const onboardInstance = Onboard({
-      wallets: [injected, metamaskSDKWallet, bitgetWallet],
+      wallets: [injected, metamaskSDKWallet, bitgetWallet()],
       chains: [
         {
           id: '0x79a', // Minato network ID
