@@ -31,8 +31,8 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
       ],
       appMetadata: {
         name: 'Staking App',
-        icon: <svg>chain.jpg</svg>,
-        logo: <svg>chain.jpg</svg>,
+        icon: 'https://test-react-app-blue-five.vercel.app/chain.jpg',
+        logo: 'https://test-react-app-blue-five.vercel.app/chain.jpg',
         description: 'An ETH staking platform on the Minato chain',
         recommendedInjectedWallets: [
           { name: 'MetaMask', url: 'https://metamask.io' }
