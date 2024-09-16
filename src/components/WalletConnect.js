@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import bitgetWalletModule from '@web3-onboard/bitget';
-import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
+import metamaskSDK from '@web3-onboard/metamask';
 import walletConnectModule from '@web3-onboard/walletconnect'
+import safeModule from '@web3-onboard/gnosis'
+import okxWallet from '@web3-onboard/okx'
+import coinbaseWalletModule from '@web3-onboard/coinbase'
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
@@ -22,7 +25,9 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
         }
       }
     });
-
+const safe = safeModule()
+const okx = okxWallet()
+const coinbaseWalletSdk = coinbaseWalletModule()
 const wcInitOptions = {
 
   projectId: '80860302c6914b5931906382db7c216e',
@@ -33,7 +38,8 @@ const wcInitOptions = {
 const walletConnect = walletConnectModule(wcInitOptions)
 
     const onboardInstance = Onboard({
-      wallets: [injected, metamaskSDKWallet, bitgetWallet, walletConnect],
+      wallets: [injected, metamaskSDKWallet,coinbaseWalletSdk , bitgetWallet, walletConnect, safe,
+      okx],
       chains: [
         {
           id: minatoChainId, // Minato network ID
