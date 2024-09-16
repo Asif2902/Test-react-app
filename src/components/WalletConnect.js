@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Onboard from '@web3-onboard/core';
+import { ethers } from 'ethers';
 import injectedModule from '@web3-onboard/injected-wallets';
-import bitgetWalletModule from '@web3-onboard/bitget' // Assuming you have this module installed
-import metamaskSDK from '@web3-onboard/metamask' // Assuming you have this module installed
+import bitgetWalletModule from '@web3-onboard/bitget';
+import metamaskSDK from '@web3-onboard/metamask'; // Assuming you have this module installed
 
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
