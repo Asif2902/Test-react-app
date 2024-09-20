@@ -81,13 +81,20 @@ function App() {
     }
   }, [signer, walletAddress]);
 
-  const handleTransactionSuccess = (transactionHash) => {
+  const handleTransactionSuccess = async (transactionHash) => {
+  // Wait for the transaction receipt confirmation
+  const receipt = await provider.waitForTransaction(transactionHash, 1);
+  if (receipt) {
     setTransactionHash(transactionHash);
     setShowAlert(true);
+
+    // Hide alert after 5 seconds
     setTimeout(() => {
       setShowAlert(false);
     }, 5000);
-  };
+  }
+};
+
 
   const updateTotalStaked = async () => {
     if (contract) {
@@ -160,38 +167,50 @@ function App() {
         updateRewards={updateRewards} 
         rewardAvailable={rewardAvailable} 
       />
+      
+{showAlert && (
+  <div style={{
+    position: 'fixed',
+    top: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    backgroundColor: '#0ED49A',
+    border: '1px solid #000',
+    borderRadius: '10px',
+    padding: '15px 20px',
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    color: '#fff',
+    boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)',
+  }}>
+    <div>
+      <p style={{ fontSize: '16px', margin: '0 0 5px' }}>
+        <span style={{ fontWeight: 'bold' }}>Transaction receipt</span>
+      </p>
+      <p style={{ fontSize: '14px', margin: 0 }}>
+        <a
+          href={`https://explorer-testnet.soneium.org/tx/${transactionHash}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#5BBFFF', textDecoration: 'underline' }}
+        >
+          View on Soneium Minato explorer: {transactionHash.slice(0, 6)}...
+        </a>
+      </p>
+    </div>
+    <button onClick={() => setShowAlert(false)} style={{
+      background: 'none',
+      border: 'none',
+      color: '#fff',
+      fontSize: '16px',
+      cursor: 'pointer',
+      marginLeft: '10px',
+    }}>X</button>
+  </div>
+)}
 
-      {showAlert && (
-        <div style={{
-          position: 'fixed',
-          top: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          backgroundColor: 'white',
-          borderColor: 'black',
-          border: '1px solid black',
-          padding: '20px',
-          textAlign: 'center',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-          borderRadius: '8px',
-          zIndex: 1000
-        }}>
-          <p style={{ color: 'green', fontSize: '16px', marginBottom: '10px' }}>
-            Transaction successful!
-          </p>
-          <p style={{ fontSize: '14px' }}>
-            View on explorer:{" "}
-            <a
-              href={`https://explorer-testnet.soneium.org/tx/${transactionHash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'blue', textDecoration: 'underline' }}
-            >
-              {transactionHash}
-            </a>
-          </p>
-        </div>
-      )}
     </div>
   );
 }
