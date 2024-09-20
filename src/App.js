@@ -194,7 +194,7 @@ function App() {
           href={`https://explorer-testnet.soneium.org/tx/${transactionHash}`}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: '#5BBFFF', textDecoration: 'underline' }}
+          style={{ color: '#111', textDecoration: 'underline' }}
         >
           View on Soneium Minato explorer: {transactionHash.slice(0, 6)}...
         </a>
