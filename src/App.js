@@ -80,21 +80,21 @@ function App() {
       };
     }
   }, [signer, walletAddress]);
+  
+const handleTransactionSuccess = async (transactionHash) => {
+  // Listen for the transaction to be mined
+  provider.once(transactionHash, (receipt) => {
+    if (receipt) {
+      setTransactionHash(transactionHash);
+      setShowAlert(true);
 
-  const handleTransactionSuccess = async (transactionHash) => {
-  // Wait for the transaction receipt confirmation
-  const receipt = await provider.waitForTransaction(transactionHash, 1);
-  if (receipt) {
-    setTransactionHash(transactionHash);
-    setShowAlert(true);
-
-    // Hide alert after 5 seconds
-    setTimeout(() => {
-      setShowAlert(false);
-    }, 5000);
-  }
+      // Hide alert after 5 seconds
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+    }
+  });
 };
-
 
   const updateTotalStaked = async () => {
     if (contract) {
