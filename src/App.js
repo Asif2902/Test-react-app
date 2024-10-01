@@ -105,7 +105,7 @@ function App() {
   }, [contract, walletAddress]);
 
   return (
-    <div className="container">
+    <div>
       <WalletConnect 
         setWalletAddress={setWalletAddress} 
         setProvider={setProvider} 
