@@ -1,13 +1,13 @@
 /* Global Styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5; /* Adjust background to match cleaner design */
-  padding: 40px;
+  background-color: #000; /* Black background */
+  padding: 20px;
   margin: 0;
-  color: #333;
+  color: #fff; /* White text */
 }
 
-/* Aligning the header container for wallet button */
+/* Header and wallet button */
 .header {
   display: flex;
   justify-content: center;
@@ -17,105 +17,111 @@ body {
 
 /* Container Styling */
 .container {
-  max-width: 400px; /* Reduce width for a more compact design */
+  max-width: 400px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: #1c1c1c; /* Dark grey for the container */
   padding: 30px;
-  border-radius: 16px; /* Increase rounding for softer edges */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  border: none; /* Remove border for a cleaner look */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border: none;
+  color: #fff; /* Ensure text inside container is white */
 }
 
-/* Section Headers */
-h2 {
-  font-size: 22px;
+/* Section Styling for Staking Details */
+.stake-section {
+  margin-bottom: 30px;
+}
+
+.stake-section h3 {
+  font-size: 18px;
   margin-bottom: 10px;
-  text-align: center; /* Align headers to the center */
+  color: #ccc; /* Light grey headings */
+}
+
+/* Box Styling */
+.box {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.box h2, .box p {
+  margin: 0;
+  color: #fff; /* White text in the box */
+}
+
+.box h2 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.box p {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #ccc; /* Light grey for the description */
+}
+
+/* Input Box Styling */
+input[type="text"], input[type="number"], input[type="password"] {
+  width: 90%;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #333; /* Dark grey background */
+  color: #fff; /* White text */
+  border: none;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5); /* Slight shadow for depth */
+  font-size: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus {
+  outline: none;
+  background-color: #444; /* Slightly lighter grey on focus */
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6); /* Deeper shadow on focus */
 }
 
 /* Button Styling */
 button {
+  width: 100%;
   margin: 10px 0;
-  padding: 14px 20px;
-  background-color: #5b53f2; /* New color scheme matching the second image */
-  color: white;
+  padding: 15px;
+  background-color: #00FFAB; /* Bright green for the buttons */
+  color: #000;
   border: none;
   cursor: pointer;
-  border-radius: 12px; /* Increase border-radius for a rounded button */
+  border-radius: 8px;
   font-size: 16px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-  background-color: #3f38d3; /* Darker hover color */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #00d88b; /* Darker green on hover */
+  box-shadow: 0 4px 12px rgba(0, 255, 171, 0.4);
 }
 
-/* Enhanced Input Styles */
-input[type="text"], input[type="number"], select {
-  width: 100%;
-  padding: 10px 15px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 12px; /* Match rounding with buttons */
-  box-sizing: border-box;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
-
-input[type="text"]:focus, input[type="number"]:focus, select:focus {
-  border-color: #5b53f2; /* Input border color matches button */
-  outline: none;
-}
-
-/* APY and Balance Display */
-.stats {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-/* Section Separators */
-.stake-section, .unstake-section, .withdraw-section {
-  margin-bottom: 25px;
-}
-
-/* Button Group */
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button-group button {
+/* Stake and Unstake Button Section */
+.stake-section button {
   width: 48%;
+  margin: 0 1% 10px 1%;
+  display: inline-block;
 }
 
-/* Responsive Design */
+.stake-section button:hover {
+  background-color: #00d88b; /* Match hover effect */
+}
+
+/* Mobile-Responsive */
 @media (max-width: 768px) {
   .container {
+    max-width: 90%;
     padding: 20px;
   }
 
-  button {
+  .stake-section button {
     width: 100%;
+    margin: 10px 0;
   }
-
-  .header {
-    justify-content: center; /* Ensures button stays centered on mobile */
-  }
-}
-
-/* Desktop-specific design */
-@media (min-width: 769px) {
-  .header {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%); /* Centers the button horizontally */
-  }
-}
-
-.stake-section button {
-    margin: 0.3em .6em 0 0;
 }
