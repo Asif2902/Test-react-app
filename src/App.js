@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
 import WalletConnect from './components/WalletConnect';
 import StakeSection from './components/StakeSection';
 import UnstakeSection from './components/UnstakeSection';
