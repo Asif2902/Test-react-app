@@ -125,3 +125,9 @@ button:hover {
     margin: 10px 0;
   }
 }
+.stake-section, .unstake-section, .withdraw-section {
+  border: 2px solid #00FFAB; /* Add green border */
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
