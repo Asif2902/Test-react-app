@@ -1,48 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import WalletConnect from './components/WalletConnect';
 import StakeSection from './components/StakeSection';
 import UnstakeSection from './components/UnstakeSection';
 import WithdrawSection from './components/WithdrawSection';
 
-const stakingABI =  [ { "inputs": [ { "internalType": "contract IERC20", "name":
-"_rewardToken", "type": "address" }, { "internalType": "address", "name":
-"initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type":
-"constructor" }, { "anonymous": false, "inputs": [ { "indexed": true,
-"internalType": "address", "name": "previousOwner", "type": "address" }, {
-"indexed": true, "internalType": "address", "name": "newOwner", "type":
-"address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs":
-[], "name": "APY", "outputs": [ { "internalType": "uint256", "name": "", "type":
-"uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [],
-"name": "SECONDS_IN_A_YEAR", "outputs": [ { "internalType": "uint256", "name":
-"", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, {
-"inputs": [ { "internalType": "address", "name": "_staker", "type": "address" }
-], "name": "getReward", "outputs": [ { "internalType": "address", "name": "",
-"type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256"
-} ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name":
-"getTotalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type":
-"uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [],
-"name": "owner", "outputs": [ { "internalType": "address", "name": "", "type":
-"address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [],
-"name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable",
-"type": "function" }, { "inputs": [], "name": "rewardToken", "outputs": [ {
-"internalType": "contract IERC20", "name": "", "type": "address" } ],
-"stateMutability": "view", "type": "function" }, { "inputs": [], "name":
-"stake", "outputs": [], "stateMutability": "payable", "type": "function" }, {
-"inputs": [ { "internalType": "address", "name": "", "type": "address" } ],
-"name": "stakers", "outputs": [ { "internalType": "uint256", "name":
-"amountStaked", "type": "uint256" }, { "internalType": "uint256", "name":
-"lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name":
-"rewardDebt", "type": "uint256" } ], "stateMutability": "view", "type":
-"function" }, { "inputs": [], "name": "totalStaked", "outputs": [ {
-"internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability":
-"view", "type": "function" }, { "inputs": [ { "internalType": "address", "name":
-"newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [],
-"stateMutability": "nonpayable", "type": "function" }, { "inputs": [ {
-"internalType": "uint256", "name": "_amount", "type": "uint256" } ], "name":
-"unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
-{ "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability":
-"nonpayable", "type": "function" } ]; 
+const stakingABI = [ { "inputs": [ { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" }, { "internalType": "address", "name": "initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "APY", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "SECONDS_IN_A_YEAR", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_staker", "type": "address" } ], "name": "getReward", "outputs": [ { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getTotalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "rewardToken", "outputs": [ { "internalType": "contract IERC20", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "stake", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "stakers", "outputs": [ { "internalType": "uint256", "name": "amountStaked", "type": "uint256" }, { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDebt", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_amount", "type": "uint256" } ], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
 const stakingContractAddress = '0xcE3E021038C4f62209EFf23f1d2D3B3EbE83b600';
 
 function App() {
@@ -81,32 +45,31 @@ function App() {
     }
   }, [signer, walletAddress]);
   
-const handleTransactionSuccess = async (transactionHash) => {
-  // Listen for the transaction to be mined
-  provider.once(transactionHash, (receipt) => {
-    if (receipt) {
-      setTransactionHash(transactionHash);
-      setShowAlert(true);
+  const handleTransactionSuccess = async (transactionHash) => {
+    provider.once(transactionHash, (receipt) => {
+      if (receipt) {
+        setTransactionHash(transactionHash);
+        setShowAlert(true);
 
-      // Hide alert after 5 seconds
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
-    }
-  });
-};
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 5000);
+      }
+    });
+  };
 
   const updateTotalStaked = async () => {
-    if (contract) {
-      try {
-        const totalStakedValue = await contract.getTotalStaked();
-        const ethPrice = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
-        const totalStakedETH = ethers.utils.formatEther(totalStakedValue);
-        setTotalStaked(totalStakedETH);
-        setEthInUSD((totalStakedETH * ethPrice.data.ethereum.usd).toFixed(2));
-      } catch (error) {
-        console.error("Error updating total staked:", error);
-      }
+    try {
+      const provider = new ethers.providers.JsonRpcProvider('https://rpc.minato.soneium.org');
+      const contract = new ethers.Contract(stakingContractAddress, stakingABI, provider);
+
+      const totalStakedValue = await contract.getTotalStaked();
+      const ethPrice = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+      const totalStakedETH = ethers.utils.formatEther(totalStakedValue);
+      setTotalStaked(totalStakedETH);
+      setEthInUSD((totalStakedETH * ethPrice.data.ethereum.usd).toFixed(2));
+    } catch (error) {
+      console.error("Error updating total staked:", error);
     }
   };
 
@@ -133,8 +96,11 @@ const handleTransactionSuccess = async (transactionHash) => {
   };
 
   useEffect(() => {
+    updateTotalStaked(); // Always show total staked ETH and value on load
+  }, []);
+
+  useEffect(() => {
     if (contract) {
-      updateTotalStaked();
       updateWalletBalance();
       updateRewards();
     }
@@ -168,49 +134,48 @@ const handleTransactionSuccess = async (transactionHash) => {
         rewardAvailable={rewardAvailable} 
       />
       
-{showAlert && (
-  <div style={{
-    position: 'fixed',
-    top: '20px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    backgroundColor: '#0ED49A',
-    border: '1px solid #000',
-    borderRadius: '10px',
-    padding: '15px 20px',
-    zIndex: 1000,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    color: '#fff',
-    boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)',
-  }}>
-    <div>
-      <p style={{ fontSize: '16px', margin: '0 0 5px' }}>
-        <span style={{ fontWeight: 'bold' }}>Transaction receipt</span>
-      </p>
-      <p style={{ fontSize: '14px', margin: 0 }}>
-        <a
-          href={`https://explorer-testnet.soneium.org/tx/${transactionHash}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: '#111', textDecoration: 'underline' }}
-        >
-          View on Soneium Minato explorer: {transactionHash.slice(0, 6)}...
-        </a>
-      </p>
-    </div>
-    <button onClick={() => setShowAlert(false)} style={{
-      background: 'none',
-      border: 'none',
-      color: '#fff',
-      fontSize: '16px',
-      cursor: 'pointer',
-      marginLeft: '10px',
-    }}>X</button>
-  </div>
-)}
-
+      {showAlert && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#0ED49A',
+          border: '1px solid #000',
+          borderRadius: '10px',
+          padding: '15px 20px',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          color: '#fff',
+          boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)',
+        }}>
+          <div>
+            <p style={{ fontSize: '16px', margin: '0 0 5px' }}>
+              <span style={{ fontWeight: 'bold' }}>Transaction receipt</span>
+            </p>
+            <p style={{ fontSize: '14px', margin: 0 }}>
+              <a
+                href={`https://explorer-testnet.soneium.org/tx/${transactionHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#111', textDecoration: 'underline' }}
+              >
+                View on Soneium Minato explorer: {transactionHash.slice(0, 6)}...
+              </a>
+            </p>
+          </div>
+          <button onClick={() => setShowAlert(false)} style={{
+            background: 'none',
+            border: 'none',
+            color: '#fff',
+            fontSize: '16px',
+            cursor: 'pointer',
+            marginLeft: '10px',
+          }}>X</button>
+        </div>
+      )}
     </div>
   );
 }
