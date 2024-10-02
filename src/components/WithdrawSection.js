@@ -9,7 +9,7 @@ const WithdrawSection = ({ contract, updateRewards, rewardAvailable }) => {
   return (
     <div className="withdraw-section">
       <h3>Withdraw Rewards</h3>
-      <p>Reward Available: {rewardAvailable} Tokens</p>
+      <code>Reward Available: {rewardAvailable} Tokens</code>
       <button onClick={handleWithdraw}>Withdraw</button>
     </div>
   );
