@@ -178,4 +178,44 @@ function App() {
   );
 }
 
+const ThreeDotMenu = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = (e) => {
+    if (!e.target.closest(".menu-container")) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Close menu when clicking outside
+  React.useEffect(() => {
+    window.addEventListener("click", closeMenu);
+    return () => {
+      window.removeEventListener("click", closeMenu);
+    };
+  }, []);
+
+  return (
+    <div className="menu-container">
+      <button className="menu-btn" onClick={toggleMenu}>
+        <i className="fas fa-ellipsis-v"></i>
+      </button>
+      {isMenuOpen && (
+        <div className="menu-content">
+          <a href="https://lp-lockers.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <i className="fas fa-exchange-alt"></i> P2P
+          </a>
+          <a href="https://p2-p-marketplace.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <i className="fas fa-lock"></i> Token Locker
+          </a>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default App;
