@@ -21,7 +21,7 @@ const StakeSection = ({ walletBalance, contract, updateTotalStaked, updateWallet
   return (
     <div className="stake-section">
       <h3>Stake ETH</h3>
-      <p>Your Balance: {walletBalance} ETH</p>
+      <code>Your Balance: {walletBalance} ETH</code>
       <input type="number" value={stakeAmount} onChange={(e) => setStakeAmount(e.target.value)} placeholder="Enter amount" />
       <button onClick={handleMaxStake}>Max</button>
       <button onClick={handleStake}>Stake</button>
