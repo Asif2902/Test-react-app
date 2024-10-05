@@ -7,6 +7,9 @@ import walletConnectModule from '@web3-onboard/walletconnect'
 import okxWallet from '@web3-onboard/okx'
 import coinbaseWalletModule from '@web3-onboard/coinbase'
 
+const onboard = Onboard({
+  theme: 'dark'})
+
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false); // Track connection status
