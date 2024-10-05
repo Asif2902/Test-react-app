@@ -8,86 +8,8 @@
   <meta name="keywords" content="soneium, Staking, Crypto, Rewards, ETH">
   <meta name="author" content="Asif Iqbal">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    /* Style for the 3-dot menu */
-    .menu-container {
-      position: relative;
-      display: inline-block;
-    }
-
-    .menu-btn {
-      font-size: 24px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: #fff;
-    }
-
-    /* Dropdown menu */
-    .menu-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
-      border-radius: 5px;
-    }
-
-    .menu-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
-    .menu-content a:hover {
-      background-color: #f1f1f1;
-    }
-
-    .menu-content i {
-      margin-right: 10px;
-    }
-  </style>
 </head>
 <body>
-
-  <!-- 3-dot menu icon -->
-  <div class="menu-container">
-    <button class="menu-btn"><i class="fas fa-ellipsis-v"></i></button>
-    <div class="menu-content">
-      <a href="https://p2-p-marketplace.vercel.app/" target="_blank">
-        <i class="fas fa-exchange-alt"></i> P2P
-      </a>
-      <a href="https://lp-lockers.vercel.app/" target="_blank">
-        <i class="fas fa-lock"></i> Token Locker
-      </a>
-    </div>
-  </div>
-
-  <script>
-    // Toggle menu visibility
-    document.querySelector('.menu-btn').addEventListener('click', function() {
-      const menuContent = document.querySelector('.menu-content');
-      menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Close the dropdown if clicked outside
-    window.onclick = function(event) {
-      if (!event.target.matches('.menu-btn')) {
-        var dropdowns = document.getElementsByClassName("menu-content");
-        for (var i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.style.display === 'block') {
-            openDropdown.style.display = 'none';
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Correct ethers.js and axios inclusion -->
   <script src="ethers.js" type="application/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
