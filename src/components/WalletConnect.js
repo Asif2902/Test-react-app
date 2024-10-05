@@ -38,6 +38,7 @@ const wcInitOptions = {
 const walletConnect = walletConnectModule(wcInitOptions)
 
     const onboardInstance = Onboard({
+     theme: 'dark',
       wallets: [injected, metamaskSDKWallet,coinbaseWalletSdk , bitgetWallet, walletConnect, okx],
       chains: [
         {
