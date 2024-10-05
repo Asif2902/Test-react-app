@@ -7,6 +7,7 @@ import walletConnectModule from '@web3-onboard/walletconnect'
 import okxWallet from '@web3-onboard/okx'
 import coinbaseWalletModule from '@web3-onboard/coinbase'
 
+
 const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false); // Track connection status
@@ -36,38 +37,26 @@ const wcInitOptions = {
 }
 const walletConnect = walletConnectModule(wcInitOptions)
 
-const onboardInstance = Onboard({
-  wallets: [injected, metamaskSDKWallet, coinbaseWalletSdk, bitgetWallet, walletConnect, okx],
-  chains: [
-    {
-      id: minatoChainId, // Minato network ID
-      token: 'ETH',
-      label: 'Minato',
-      rpcUrl: 'https://rpc.minato.soneium.org'
-    }
-  ],
-  appMetadata: {
-    name: 'Staking App',
-    icon: 'https://i.ibb.co.com/VJH23rF/logo-2.png',
-    logo: 'https://i.ibb.co.com/VJH23rF/logo-2.png',
-    description: 'An ETH staking platform on the Minato chain',
-    recommendedInjectedWallets: [
-      { name: 'MetaMask', url: 'https://metamask.io' }
-    ]
-  },
-  styles: {
-    '--w3o-background-color': '#000', /* Black background */
-    '--w3o-foreground-color': '#1c1c1c', /* Dark grey for modals */
-    '--w3o-text-color': '#fff', /* White text */
-    '--w3o-border-color': '#00FFAB', /* Bright green for borders */
-    '--w3o-action-color': '#00FFAB', /* Bright green buttons */
-    '--w3o-border-radius': '12px', /* Match your UI's border radius */
-    '--w3o-font-family': "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", /* Match your font */
-    '--w3o-action-hover-color': '#00d88b', /* Green on hover */
-    '--w3o-box-shadow': '0px 1rem 1.5rem -0.9rem #000000e1' /* Box shadow */
-  }
-});
-
+    const onboardInstance = Onboard({
+      wallets: [injected, metamaskSDKWallet,coinbaseWalletSdk , bitgetWallet, walletConnect, okx],
+      chains: [
+        {
+          id: minatoChainId, // Minato network ID
+          token: 'ETH',
+          label: 'Minato',
+          rpcUrl: 'https://rpc.minato.soneium.org'
+        }
+      ],
+      appMetadata: {
+        name: 'Staking App',
+        icon: 'https://i.ibb.co.com/VJH23rF/logo-2.png',
+        logo: 'https://i.ibb.co.com/VJH23rF/logo-2.png',
+        description: 'An ETH staking platform on the Minato chain',
+        recommendedInjectedWallets: [
+          { name: 'MetaMask', url: 'https://metamask.io' }
+        ]
+      }
+    });
 
     setOnboard(onboardInstance);
   }, []);
