@@ -6,7 +6,6 @@ import metamaskSDK from '@web3-onboard/metamask';
 import walletConnectModule from '@web3-onboard/walletconnect'
 import okxWallet from '@web3-onboard/okx'
 import coinbaseWalletModule from '@web3-onboard/coinbase'
-
 const onboard = Onboard({
   theme: 'dark'})
 
