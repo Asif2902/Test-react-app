@@ -5,7 +5,7 @@ import UnstakeSection from './components/UnstakeSection';
 import WithdrawSection from './components/WithdrawSection';
 
 const stakingABI = [ { "inputs": [ { "internalType": "contract IERC20", "name": "_rewardToken", "type": "address" }, { "internalType": "address", "name": "initialOwner", "type": "address" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "APY", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "SECONDS_IN_A_YEAR", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "_staker", "type": "address" } ], "name": "getReward", "outputs": [ { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getTotalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "rewardToken", "outputs": [ { "internalType": "contract IERC20", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "stake", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "stakers", "outputs": [ { "internalType": "uint256", "name": "amountStaked", "type": "uint256" }, { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }, { "internalType": "uint256", "name": "rewardDebt", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "totalStaked", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_amount", "type": "uint256" } ], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "withdrawReward", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ];
-const stakingContractAddress = '0xcE3E021038C4f62209EFf23f1d2D3B3EbE83b600';
+const stakingContractAddress = '0x129D4181D592107548A27c6890fCC1710abAE167';
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -58,7 +58,8 @@ function App() {
 
   const updateTotalStaked = async () => {
     try {
-      const provider = new ethers.providers.JsonRpcProvider('https://rpc.minato.soneium.org');
+      const provider = new
+      ethers.providers.JsonRpcProvider('https://sepolia.unichain.org');
       const contract = new ethers.Contract(stakingContractAddress, stakingABI, provider);
 
       const totalStakedValue = await contract.getTotalStaked();
@@ -155,12 +156,12 @@ function App() {
             </p>
             <p style={{ fontSize: '14px', margin: 0 }}>
               <a
-                href={`https://explorer-testnet.soneium.org/tx/${transactionHash}`}
+                href={`https://sepolia.uniscan.org/${transactionHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#111', textDecoration: 'underline' }}
               >
-                View on Soneium Minato explorer: {transactionHash.slice(0, 6)}...
+                View on Uniscan explorer: {transactionHash.slice(0, 6)}...
               </a>
             </p>
           </div>
