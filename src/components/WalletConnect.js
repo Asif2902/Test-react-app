@@ -12,7 +12,7 @@ const WalletConnect = ({ setWalletAddress, setProvider, setSigner }) => {
   const [onboard, setOnboard] = useState(null);
   const [walletConnected, setWalletConnected] = useState(false); // Track connection status
   const [walletAddress, setWalletAddressLocal] = useState(''); // Store connected address locally
-  const minatoChainId = '0x79a'; // Minato network chain ID
+  const unichainChainId = '0x515'; // unichain network chain ID
 
   useEffect(() => {
     const injected = injectedModule();
@@ -31,7 +31,7 @@ const coinbaseWalletSdk = coinbaseWalletModule()
 const wcInitOptions = {
 
   projectId: '80860302c6914b5931906382db7c216e',
-  requiredChains: [1946],
+  requiredChains: [1301],
  
   dappUrl: 'https://stake-meth.vercel.app'
 }
@@ -42,17 +42,17 @@ const walletConnect = walletConnectModule(wcInitOptions)
       wallets: [injected, metamaskSDKWallet,coinbaseWalletSdk , bitgetWallet, walletConnect, okx],
       chains: [
         {
-          id: minatoChainId, // Minato network ID
+          id: unichainChainId, // unichain network ID
           token: 'ETH',
-          label: 'Minato',
-          rpcUrl: 'https://rpc.minato.soneium.org'
+          label: 'Unichain',
+          rpcUrl: 'https://sepolia.unichain.org'
         }
       ],
       appMetadata: {
         name: 'Staking App',
         icon: 'https://i.ibb.co.com/VJH23rF/logo-2.png',
         logo: 'https://i.ibb.co.com/VJH23rF/logo-2.png',
-        description: 'An ETH staking platform on the Minato chain',
+        description: 'An ETH staking platform on the unichain chain',
         recommendedInjectedWallets: [
           { name: 'MetaMask', url: 'https://metamask.io' }
         ]
@@ -64,28 +64,28 @@ const walletConnect = walletConnectModule(wcInitOptions)
 
   const switchChain = async (provider) => {
     try {
-      // Request to switch to the Minato chain
-      await provider.send('wallet_switchEthereumChain', [{ chainId: minatoChainId }]);
+      // Request to switch to the unichain chain
+      await provider.send('wallet_switchEthereumChain', [{ chainId: unichainChainId }]);
     } catch (error) {
       // If the chain hasn't been added to the user's wallet, catch the error
       if (error.code === 4902) {
         try {
-          // Request to add the Minato chain
+          // Request to add the unichain chain
           await provider.send('wallet_addEthereumChain', [
             {
-              chainId: minatoChainId,
-              chainName: 'Minato',
-              rpcUrls: ['https://rpc.minato.soneium.org'],
+              chainId: unichainChainId,
+              chainName: 'Unichain',
+              rpcUrls: ['https://sepolia.unichain.org'],
               nativeCurrency: {
                 name: 'Ethereum',
                 symbol: 'ETH',
                 decimals: 18
               },
-              blockExplorerUrls: ['https://explorer-testnet.soneium.org']
+              blockExplorerUrls: ['https://sepolia.uniscan.org']
             }
           ]);
         } catch (addError) {
-          console.error('Error adding Minato chain to the wallet', addError);
+          console.error('Error adding Uniscan chain to the wallet', addError);
         }
       } else {
         console.error('Error switching chain', error);
@@ -110,8 +110,8 @@ const walletConnect = walletConnectModule(wcInitOptions)
 
         // Check if the connected wallet is on the correct chain
         const { chainId } = await ethersProvider.getNetwork();
-        if (chainId !== parseInt(minatoChainId, 16)) {
-          // If the chain is incorrect, request to switch to the Minato chain
+        if (chainId !== parseInt(unichainChainId, 16)) {
+          // If the chain is incorrect, request to switch to the unichain chain
           await switchChain(ethersProvider.provider);
         }
       }
