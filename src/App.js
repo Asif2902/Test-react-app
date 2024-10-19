@@ -156,7 +156,7 @@ function App() {
             </p>
             <p style={{ fontSize: '14px', margin: 0 }}>
               <a
-                href={`https://sepolia.uniscan.org/tx/${transactionHash}`}
+                href={`https://sepolia.uniscan.xyz/tx/${transactionHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: '#111', textDecoration: 'underline' }}
